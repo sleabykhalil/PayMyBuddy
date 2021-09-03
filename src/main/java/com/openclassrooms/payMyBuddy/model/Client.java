@@ -17,7 +17,8 @@ public class Client {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    @Column(name = "client_id")
+    private long clientId;
 
     @Column(name = "email_account")
     private String emailAccount;
@@ -44,7 +45,7 @@ public class Client {
     @OneToMany(
             cascade = {CascadeType.MERGE,
                     CascadeType.PERSIST},
-            fetch = FetchType.EAGER)
+            fetch = FetchType.LAZY)
     @JoinColumn(name = "sender_client_id")
     private List<MoneyTransaction> moneyTransactions;
 
@@ -52,8 +53,8 @@ public class Client {
             cascade = {CascadeType.MERGE,
                     CascadeType.PERSIST},
             fetch = FetchType.EAGER)
-    @JoinTable(name = "friend",
-            joinColumns = @JoinColumn(name = "client_id"), inverseJoinColumns = @JoinColumn(name = "client_friend_id"))
-    private List<Client> friends;
+    @JoinTable(name = "friend_client",
+            joinColumns = @JoinColumn(name = "client_id"), inverseJoinColumns = @JoinColumn(name = "friend_id"))
+    private List<Friend> friends;
 
 }

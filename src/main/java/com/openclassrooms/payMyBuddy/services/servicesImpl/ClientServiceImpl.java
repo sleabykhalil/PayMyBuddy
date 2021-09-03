@@ -18,7 +18,7 @@ public class ClientServiceImpl implements ClientService {
         Client result=  clientDao.save(client);
         result.setBalance(Balance.builder()
                 .amount(0.0)
-                .clientId(result.getId()).build());
+                .clientId(result.getClientId()).build());
         return clientDao.save(result);
     }
 }
