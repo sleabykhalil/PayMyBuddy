@@ -5,5 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ClientDao extends JpaRepository<Client,Long> {
+public interface ClientDao extends JpaRepository<Client, Long> {
+    Client findClientByEmailAccount(String emailAccount);
 }

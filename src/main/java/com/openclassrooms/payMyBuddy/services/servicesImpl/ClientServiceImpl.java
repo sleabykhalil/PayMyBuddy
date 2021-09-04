@@ -14,7 +14,7 @@ public class ClientServiceImpl implements ClientService {
     private final ClientDao clientDao;
 
     @Override
-    public Client addClient(Client client) {
+    public Client addNewClient(Client client) {
         Client result=  clientDao.save(client);
         result.setBalance(Balance.builder()
                 .amount(0.0)

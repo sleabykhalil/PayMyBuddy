@@ -1,24 +1,23 @@
-package com.openclassrooms.payMyBuddy.services.servicesImpl;
+package com.openclassrooms.payMyBuddy.services.servicesImpl.integration;
 
 import com.openclassrooms.payMyBuddy.dao.ClientDao;
-import com.openclassrooms.payMyBuddy.model.Balance;
 import com.openclassrooms.payMyBuddy.model.Client;
 import com.openclassrooms.payMyBuddy.services.ClientService;
+import com.openclassrooms.payMyBuddy.services.servicesImpl.ClientServiceImpl;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 //@ExtendWith(SpringExtension.class)
 //@SpringBootTest
-class ClientServiceImplTest {
+class ClientServiceImplIT {
 
     @Autowired
     ClientDao clientDao;
@@ -31,7 +30,7 @@ class ClientServiceImplTest {
     }
 
     @Test
-    void addClient() {
+    void addNewClient() {
         Client clientToAdd = Client.builder()
                 .emailAccount("khalil@gmail.com")
                 .clientPassword("testPassword")
@@ -40,7 +39,7 @@ class ClientServiceImplTest {
                 .firstName("Khalil")
                 .lastName("Sleaby")
                 .build();
-        Client result = clientServiceUnderTest.addClient(clientToAdd);
+        Client result = clientServiceUnderTest.addNewClient(clientToAdd);
         assertThat(result).isEqualTo(clientToAdd);
     }
 }

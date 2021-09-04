@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 public class MoneyTransaction {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(name = "money_transaction_timestamp")
