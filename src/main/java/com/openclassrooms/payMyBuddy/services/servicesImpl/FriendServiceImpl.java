@@ -19,7 +19,7 @@ public class FriendServiceImpl implements FriendService {
     public Friend updateOrInsertFriend(long friendId, Client newFriend) {
 
         Optional<Friend> clientToAddFriends = friendDao.findById(friendId);
-        if (!clientToAddFriends.isPresent()){
+        if (clientToAddFriends.isEmpty()){
             //add new friend
             return friendDao.save(Friend.builder()
                     .friendId(friendId)

@@ -5,8 +5,10 @@ import com.openclassrooms.payMyBuddy.model.Balance;
 import com.openclassrooms.payMyBuddy.model.Client;
 import com.openclassrooms.payMyBuddy.services.ClientService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+@Slf4j
 @AllArgsConstructor
 @Service
 public class ClientServiceImpl implements ClientService {
@@ -15,10 +17,15 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public Client addNewClient(Client client) {
-        Client result=  clientDao.save(client);
-        result.setBalance(Balance.builder()
-                .amount(0.0)
-                .clientId(result.getClientId()).build());
-        return clientDao.save(result);
+        if (clientDao.findClientByEmailAccount(client.getEmailAccount()).isEmpty()) {
+            Client result = clientDao.save(client);
+            result.setBalance(Balance.builder()
+                    .amount(0.0)
+                    .clientId(result.getClientId()).build());
+            return clientDao.save(result);
+        } else {
+            log.info("Email must be unique");
+            return null;
+        }
     }
 }
