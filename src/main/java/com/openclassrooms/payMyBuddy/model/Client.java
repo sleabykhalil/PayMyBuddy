@@ -40,7 +40,7 @@ public class Client {
     @OneToOne(
             cascade = CascadeType.ALL
 /*            ,orphanRemoval = true*/
-          ,  fetch = FetchType.EAGER)
+          ,  fetch = FetchType.LAZY)
     @JoinColumn(name = "client_id")
     private Balance balance;
 
@@ -54,7 +54,7 @@ public class Client {
     @ManyToMany(
             cascade = {CascadeType.MERGE,
                     CascadeType.PERSIST},
-            fetch = FetchType.EAGER)
+            fetch = FetchType.LAZY)
     @JoinTable(name = "friend_client",
             joinColumns = @JoinColumn(name = "client_id"), inverseJoinColumns = @JoinColumn(name = "friend_id"))
     private List<Friend> friends;
