@@ -1,6 +1,5 @@
 package com.openclassrooms.payMyBuddy.controller;
 
-import com.openclassrooms.payMyBuddy.model.Client;
 import com.openclassrooms.payMyBuddy.model.MoneyTransaction;
 import com.openclassrooms.payMyBuddy.services.MoneyTransactionService;
 import io.swagger.v3.oas.annotations.Operation;
