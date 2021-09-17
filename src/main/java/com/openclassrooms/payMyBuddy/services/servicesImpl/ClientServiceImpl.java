@@ -8,12 +8,16 @@ import com.openclassrooms.payMyBuddy.services.ClientService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Slf4j
 @AllArgsConstructor
 @Service
+@Transactional
 public class ClientServiceImpl implements ClientService {
 
     private final ClientDao clientDao;
@@ -27,10 +31,11 @@ public class ClientServiceImpl implements ClientService {
                     .clientId(result.getClientId()).build());
             return clientDao.save(result);
         } else {
-            log.info("This Email account[{}] is already used," , client.getEmailAccount());
+            log.info("This Email account[{}] is already used,", client.getEmailAccount());
             return null;
         }
     }
+
     @Override
     public Client updateOrInsertFriend(String friendEmailAccount, long clientId) {
         Optional<Client> friend = clientDao.findClientByEmailAccount(friendEmailAccount);
@@ -48,6 +53,24 @@ public class ClientServiceImpl implements ClientService {
             log.error(" can not find client in DB ");
         }
         return null;
+    }
+
+    @Override
+    public Client findClientByEmail(String clientEmail) {
+        Optional<Client> client = clientDao.findClientByEmailAccount(clientEmail);
+        if (client.isPresent()) {
+            return client.get();
+        } else {
+            log.error("Client with Email =[{}] not found", clientEmail);
+            return null;
+        }
+    }
+
+    @Override
+    public List<Client> findAllFriends(List<Friend> friends) {
+        List<Client> friendList = clientDao.findAllById(friends
+                .stream().map(Friend::getFriendId).collect(Collectors.toList()));
+        return friendList;
     }
 }
 

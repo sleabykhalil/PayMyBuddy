@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+            crossorigin="anonymous"></script>
+
+    <title>My application</title>
+</head>
+<body>
+<nav class="navbar navbar-expand-sm d-flex justify-content-between  navbar-light d-flex justify-content-evenly"
+     style=" background-color:#ffffff;">
+
+    <button class="btn btn-success" type="submit">Pay My Buddy</button>
+
+    <div class="d-flex justify-content-end">
+        <ul class="navbar-nav">
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Transfer</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Profile</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link " href="#">Contact</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link " href="#">Log off</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+
+<nav class="navbar navbar-expand-sm d-flex justify-content-between  navbar-light bg-light d-flex justify-content-evenly">
+
+
+    <div class="d-flex justify-content-start">
+        <ul class="navbar-nav">
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link disable" href="#">/</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Transfer</a>
+            </li>
+
+
+        </ul>
+    </div>
+</nav>
+
+
+<!-- transfare section as card -->
+<div class="container mt-5 ">
+    <div>
+        <div class="row justify-content-between">
+            <H2>Send Money</H2>
+            <button class="btn btn-primary" type="submit">Add Connection</button>
+
+        </div>
+        <div class="row bg-light justify-content-between p-5 ">
+            <div class="col-sm">
+                <select class="form-select form-control-lg border border-dark" aria-label="Select A Connection">
+                    <option selected>Select A Connection</option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                </select>
+            </div>
+            <!--            <div class="col-sm">-->
+            <div class="input-group col-sm input-group-lg ">
+                <input type="number" class="form-control input-lg border border-dark" placeholder="0€ " step="0.01"
+                       min="0"
+                       style="text-align:right;" align="middle">
+            </div>
+            <!--            </div>-->
+            <!--            <div class="col-sm">-->
+            <button type="button" class="btn btn-success btn-lg col-sm">Pay</button>
+            <!--            </div>-->
+        </div>
+    </div>
+
+    <!-- table section -->
+
+    <div class="row justify-content-between">
+        <H2>My Transactions</H2>
+
+    </div>
+
+    <!--    <table class="table table-striped table-hover mt-5">-->
+    <!--        <thead>-->
+    <!--        <tr class="table-info text-center">-->
+    <!--            <th scope="col">Connections</th>-->
+    <!--            <th scope="col">Description</th>-->
+    <!--            <th scope="col">Amount</th>-->
+    <!--        </tr>-->
+    <!--        </thead>-->
+    <!--        <tbody>-->
+    <!--        <tr class="table-info text-center">-->
+    <!--            <td class="table-info">name</td>-->
+    <!--            <td class="table-info">motive</td>-->
+    <!--            <td class="table-info">0€</td>-->
+    <!--        </tr>-->
+    <!--        <tr class="table-info text-center">-->
+    <!--            <td class="table-info">name</td>-->
+    <!--            <td class="table-info">motive</td>-->
+    <!--            <td class="table-info">0€</td>-->
+    <!--        </tr>-->
+    <!--        <tr class="table-info text-center">-->
+    <!--            <td class="table-info">name</td>-->
+    <!--            <td class="table-info">motive</td>-->
+    <!--            <td class="table-info">0€</td>-->
+    <!--        </tr>-->
+    <!--        </tbody>-->
+    <!--    </table>-->
+
+    <table class="table table-striped border border-dark">
+        <thead class="bg-success">
+        <tr class="text-center">
+            <th scope="col">Connections</th>
+            <th scope="col">Description</th>
+            <th scope="col">Amount</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="text-center" th:each="moneyTransActionDto : ${paymentDtoList}">
+            <td th:text="${moneyTransActionDto.receiverName}">name</td>
+            <td th:text="${moneyTransActionDto.motive}">motive</td>
+            <td th:text="${moneyTransActionDto.amount}">0€</td>
+        </tr>
+        <tr class="text-center">
+            <td>name</td>
+            <td>motive</td>
+            <td>0€</td>
+        </tr>
+        <tr class="text-center">
+            <td>name</td>
+            <td>motive</td>
+            <td>0€</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!--   <nav aria-label="Page navigation" class="paging">
+           <ul class="pagination" th:if="${posts.page.totalPages > 1}">
+               <li class="page-item" th:classappend="${!posts.paging.isPrevEnabled()? 'disabled' : ''}">
+                   <a class="page-link" th:href="@{'/?pageNumber=' + ${posts.paging.pageNumber - 1}}"
+                      tabindex="-1">Previous</a>
+               </li>
+               <th:block th:each="item : ${posts.paging.getItems()}">
+                   <li class="page-item" th:classappend="${item.index == posts.paging.pageNumber? 'active' : ''}"
+                       th:if="${item.pageItemType.name() == 'PAGE'}">
+                       <a class="page-link" th:href="@{'/?pageNumber=' + ${item.index}}"
+                          th:text="${item.index}"></a>
+                   </li>
+                   <li class="page-item disabled" th:if="${item.pageItemType.name() == 'DOTS'}">
+                       <a class="page-link" href="#">...</a>
+                   </li>
+               </th:block>
+               <li class="page-item" th:classappend="${!posts.paging.isNextEnabled()? 'disabled' : ''}">
+                   <a class="page-link" th:href="@{'/?pageNumber=' + ${posts.paging.pageNumber + 1}}">Next</a>
+               </li>
+           </ul>
+       </nav>-->
+    <nav aria-label="Page navigation example">
+        <ul class="pagination pagination-lg justify-content-center">
+            <li class="page-item">
+                <a class="page-link" href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                    <span class="sr-only">Previous</span>
+                </a>
+            </li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item">
+                <a class="page-link" href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+<div> number of transaction = <span th:text="${numberOfTransaction}"></span></div>
+</div>
+<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+        crossorigin="anonymous"></script>
+</body>
+</html>

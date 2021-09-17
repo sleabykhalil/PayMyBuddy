@@ -29,10 +29,11 @@ public class MoneyTransaction {
     @Column(name = "receiver_client_id")
     private long receiverClientId;
 
-        @OneToOne(cascade = CascadeType.ALL,
-                fetch = FetchType.LAZY)
-        @JoinColumn(name = "id", referencedColumnName = "transaction_id")
-        Payment payment;
+    @OneToOne(cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY)
+    @JoinColumn(name = "id", referencedColumnName = "transaction_id")
+    Payment payment;
+
 /*    @OneToOne(mappedBy = "moneyTransaction", cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
     private Payment payment;*/

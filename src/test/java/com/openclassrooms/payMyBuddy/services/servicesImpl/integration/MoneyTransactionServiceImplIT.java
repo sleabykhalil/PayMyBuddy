@@ -3,6 +3,8 @@ package com.openclassrooms.payMyBuddy.services.servicesImpl.integration;
 import com.openclassrooms.payMyBuddy.dao.BalanceDao;
 import com.openclassrooms.payMyBuddy.dao.ClientDao;
 import com.openclassrooms.payMyBuddy.dao.MoneyTransactionDao;
+import com.openclassrooms.payMyBuddy.dto.MoneyTransactionDto;
+import com.openclassrooms.payMyBuddy.dto.mapper.MoneyTransactionMapper;
 import com.openclassrooms.payMyBuddy.model.Balance;
 import com.openclassrooms.payMyBuddy.model.Client;
 import com.openclassrooms.payMyBuddy.model.MoneyTransaction;
@@ -29,12 +31,14 @@ class MoneyTransactionServiceImplIT {
     MoneyTransactionDao moneyTransactionDao;
     @Autowired
     ClientDao clientDao;
-
+    @Autowired
+    MoneyTransactionMapper moneyTransactionMapper;
     MoneyTransactionService moneyTransactionServiceUnderTest;
 
     @BeforeEach
     void setUp() {
-        moneyTransactionServiceUnderTest = new MoneyTransactionServiceImpl(moneyTransactionDao, balanceDao);
+        moneyTransactionServiceUnderTest = new MoneyTransactionServiceImpl(moneyTransactionDao
+                , balanceDao, clientDao, moneyTransactionMapper);
     }
 
     @Test
@@ -59,12 +63,17 @@ class MoneyTransactionServiceImplIT {
         client = clientDao.save(client);
         friend = clientDao.save(friend);
 
-        MoneyTransaction moneyTransaction = MoneyTransaction.builder()
+/*        MoneyTransaction moneyTransaction = MoneyTransaction.builder()
                 .senderClientId(client.getClientId())
                 .receiverClientId(friend.getClientId())
-                .payment(Payment.builder().amount(5.00).build()).build();
+                .payment(Payment.builder().amount(5.00).build()).build();*/
+        MoneyTransactionDto moneyTransactionDto = MoneyTransactionDto.builder()
+                .senderClientId(client.getClientId())
+                .receiverClientId(friend.getClientId())
+                .amount(5.00)
+                .build();
         //when
-        MoneyTransaction result = moneyTransactionServiceUnderTest.sendMoney(moneyTransaction);
+        MoneyTransaction result = moneyTransactionServiceUnderTest.sendMoney(moneyTransactionDto);
         client = clientDao.getById(client.getClientId());
         friend = clientDao.getById(friend.getClientId());
 
