@@ -1,8 +1,11 @@
 package com.openclassrooms.payMyBuddy.services.servicesImpl;
 
 import com.openclassrooms.payMyBuddy.dao.BalanceDao;
+import com.openclassrooms.payMyBuddy.dao.ClientDao;
 import com.openclassrooms.payMyBuddy.dao.MoneyTransactionDao;
+import com.openclassrooms.payMyBuddy.dto.MoneyTransActionDto;
 import com.openclassrooms.payMyBuddy.model.Balance;
+import com.openclassrooms.payMyBuddy.model.Client;
 import com.openclassrooms.payMyBuddy.model.MoneyTransaction;
 import com.openclassrooms.payMyBuddy.model.Payment;
 import com.openclassrooms.payMyBuddy.services.MoneyTransactionService;
@@ -12,6 +15,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,6 +28,7 @@ public class MoneyTransactionServiceImpl implements MoneyTransactionService {
     public static double FEE = 0.005;
     private final MoneyTransactionDao moneyTransactionDao;
     private final BalanceDao balanceDao;
+    private final ClientDao clientDao;
 
     @Override
     public MoneyTransaction sendMoney(MoneyTransaction moneyTransaction) {
@@ -49,6 +55,19 @@ public class MoneyTransactionServiceImpl implements MoneyTransactionService {
             log.info("Please feed your balance, minimum amount is{} ", moneyTransaction.getPayment().getAmount() + moneyTransaction.getPayment().getFee());
             return null;
         }
+    }
+
+    @Override
+    public List<MoneyTransActionDto> getTransactionList(String clientEmail) {
+        Optional<Client> client = clientDao.findClientByEmailAccount(clientEmail);
+        List<MoneyTransaction> moneyTransactionList = client.isPresent() ? moneyTransactionDao.findBySenderClientId(client.get().getClientId()) : Collections.emptyList();
+        List<MoneyTransActionDto> moneyTransactionDtoList = new ArrayList<>();
+        moneyTransactionList.forEach(x->moneyTransactionDtoList.add(MoneyTransActionDto.builder()
+                .receiverName(clientDao.findById(x.getReceiverClientId()).get().getFirstName())
+                .motive(x.getPayment().getMotive())
+                .amount(x.getPayment().getAmount())
+                .build()));
+        return moneyTransactionDtoList;
     }
 
     private boolean isValidClients(Optional<Balance> clientBalance, Optional<Balance> friendBalance) {

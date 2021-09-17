@@ -29,14 +29,14 @@ class MoneyTransactionServiceImplTest {
     BalanceDao balanceDaoMock;
     @Mock
     MoneyTransactionDao moneyTransactionDaoMock;
-    //@Mock
-    //ClientDao clientDaoMock;
+    @Mock
+    ClientDao clientDaoMock;
 
     MoneyTransactionService moneyTransactionServiceUnderTest;
 
     @BeforeEach
     void setUp() {
-        moneyTransactionServiceUnderTest = new MoneyTransactionServiceImpl(moneyTransactionDaoMock, balanceDaoMock);
+        moneyTransactionServiceUnderTest = new MoneyTransactionServiceImpl(moneyTransactionDaoMock, balanceDaoMock, clientDaoMock);
     }
 
     @Test

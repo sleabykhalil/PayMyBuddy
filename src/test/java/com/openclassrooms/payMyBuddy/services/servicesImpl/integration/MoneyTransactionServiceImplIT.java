@@ -34,7 +34,7 @@ class MoneyTransactionServiceImplIT {
 
     @BeforeEach
     void setUp() {
-        moneyTransactionServiceUnderTest = new MoneyTransactionServiceImpl(moneyTransactionDao, balanceDao);
+        moneyTransactionServiceUnderTest = new MoneyTransactionServiceImpl(moneyTransactionDao, balanceDao,clientDao);
     }
 
     @Test
