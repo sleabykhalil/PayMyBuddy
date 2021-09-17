@@ -135,7 +135,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr class="text-center" th:each="moneyTransActionDto : ${moneyTransActionDtoList}">
+        <tr class="text-center" th:each="moneyTransActionDto : ${paymentDtoList}">
             <td th:text="${moneyTransActionDto.receiverName}">name</td>
             <td th:text="${moneyTransActionDto.motive}">motive</td>
             <td th:text="${moneyTransActionDto.amount}">0€</td>

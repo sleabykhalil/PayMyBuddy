@@ -9,8 +9,13 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class FriendDto {
-    private long clientId;
+public class MoneyTransactionDto {
 
-    private String emailAccount;
+    private long senderClientId;
+
+    private long receiverClientId;
+
+    private  String motive;
+    private double amount;
+
 }
