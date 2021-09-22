@@ -6,24 +6,28 @@ import com.openclassrooms.payMyBuddy.dto.MoneyTransactionDto;
 import com.openclassrooms.payMyBuddy.dto.PaymentDto;
 import com.openclassrooms.payMyBuddy.dto.mapper.ClientMapper;
 import com.openclassrooms.payMyBuddy.model.Client;
-import com.openclassrooms.payMyBuddy.model.MoneyTransaction;
 import com.openclassrooms.payMyBuddy.services.ClientService;
 import com.openclassrooms.payMyBuddy.services.MoneyTransactionService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import javax.annotation.security.RolesAllowed;
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 
 @Slf4j
 @RestController
+@RolesAllowed({"CLIENT1", "ADMIN1"})
 public class MoneyTransactionController {
     @Autowired
     MoneyTransactionService moneyTransactionService;
@@ -32,40 +36,43 @@ public class MoneyTransactionController {
     @Autowired
     ClientMapper clientMapper;
 
-/*    @Operation(summary = "Send money")
-    @PostMapping(value = "/sendMoney")
-    public MoneyTransaction sendMoney(@RequestBody MoneyTransactionDto moneyTransactionDto) {
-        log.info("Add new transaction");
-        return moneyTransactionService.sendMoney(moneyTransactionDto);
-    }*/
+    /*    @Operation(summary = "Send money")
+        @PostMapping(value = "/sendMoney")
+        public MoneyTransaction sendMoney(@RequestBody MoneyTransactionDto moneyTransactionDto) {
+            log.info("Add new transaction");
+            return moneyTransactionService.sendMoney(moneyTransactionDto);
+        }*/
 
+    @RolesAllowed({"CLIENT1", "ADMIN1"})
     @Operation(summary = "Send money")
     @PostMapping(value = "/transfer")
-    public ModelAndView sendMoney( MoneyTransactionDto moneyTransactionDto) {
+    public ModelAndView sendMoney(MoneyTransactionDto moneyTransactionDto) {
 
         log.info("Add new transaction");
         RedirectView redirectView = new RedirectView();
-        if( (moneyTransactionService.sendMoney(moneyTransactionDto)) != null){
+        if ((moneyTransactionService.sendMoney(moneyTransactionDto)) != null) {
             redirectView.setUrl("/transfer");
             return new ModelAndView(redirectView);
-        };
+        }
         redirectView.setUrl("404");
         return new ModelAndView(redirectView);
     }
 
+    @RolesAllowed({"CLIENT1", "ADMIN1"})
     @GetMapping(value = "/transfer")
-    public ModelAndView getTransactionList(@RequestParam(required=false) String clientEmail) {
+    public ModelAndView getTransactionList(Principal principal) {
+        //   public ModelAndView getTransactionList(@RequestParam(required = false) String clientEmail) {
         String viewName = "transfer";
         Map<String, Object> model = new HashMap<String, Object>();
-
+        String clientEmail = principal.getName();
         // TODO delete client Email after creating log in
         if (clientEmail == null) {
-            clientEmail =  "khalil@gmail.com";
+            clientEmail = "khalil@gmail.com";
         }
 
         Client client = clientService.findClientByEmail(clientEmail);
-        ClientDto clientDto=clientMapper.ClientToClientDto(client);
-        model.put("clientDto",clientDto);
+        ClientDto clientDto = clientMapper.clientToClientDto(client);
+        model.put("clientDto", clientDto);
 
         MoneyTransactionDto moneyTransactionDto = MoneyTransactionDto.builder()
                 .senderClientId(client.getClientId())
@@ -73,8 +80,8 @@ public class MoneyTransactionController {
                 .build();
         List<Client> friendsList = clientService.findAllFriends(client.getFriends());
         List<FriendDto> friendsEmailList = clientMapper.friendEmailList(friendsList);
-        model.put("friendsEmailList",friendsEmailList);
-        model.put("moneyTransactionDto",moneyTransactionDto);
+        model.put("friendsEmailList", friendsEmailList);
+        model.put("moneyTransactionDto", moneyTransactionDto);
 
 
         List<PaymentDto> paymentDtoList = moneyTransactionService.getTransactionList(clientEmail);
@@ -82,7 +89,5 @@ public class MoneyTransactionController {
         model.put("numberOfTransaction", paymentDtoList.size());
         return new ModelAndView(viewName, model);
     }
-
-
 
 }

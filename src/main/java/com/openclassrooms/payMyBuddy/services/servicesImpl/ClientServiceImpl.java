@@ -7,6 +7,8 @@ import com.openclassrooms.payMyBuddy.model.Friend;
 import com.openclassrooms.payMyBuddy.services.ClientService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,11 +22,16 @@ import java.util.stream.Collectors;
 @Transactional
 public class ClientServiceImpl implements ClientService {
 
+    @Autowired
     private final ClientDao clientDao;
+
+    @Autowired
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
     public Client addNewClient(Client client) {
         if (clientDao.findClientByEmailAccount(client.getEmailAccount()).isEmpty()) {
+            client.setClientPassword(bCryptPasswordEncoder.encode(client.getClientPassword()));
             Client result = clientDao.save(client);
             result.setBalance(Balance.builder()
                     .amount(0.0)

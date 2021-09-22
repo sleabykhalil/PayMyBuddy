@@ -69,7 +69,9 @@ public class MoneyTransactionServiceImpl implements MoneyTransactionService {
     @Override
     public List<PaymentDto> getTransactionList(String clientEmail) {
         Optional<Client> client = clientDao.findClientByEmailAccount(clientEmail);
-        List<MoneyTransaction> moneyTransactionList = client.isPresent() ? moneyTransactionDao.findBySenderClientId(client.get().getClientId()) : Collections.emptyList();
+        List<MoneyTransaction> moneyTransactionList = client.isPresent()
+                ? moneyTransactionDao.findBySenderClientIdOrderByMoneyTransactionTimestampDesc(client.get().getClientId())
+                : Collections.emptyList();
         List<PaymentDto> paymentDtoList = new ArrayList<>();
         moneyTransactionList.forEach(x -> paymentDtoList.add(PaymentDto.builder()
                 .receiverName(clientDao.findById(x.getReceiverClientId()).get().getFirstName())

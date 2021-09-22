@@ -2,7 +2,6 @@
 <html lang="fr" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -76,7 +75,7 @@
 
             <div class="row bg-light justify-content-between p-5 ">
                 <div class="col-sm">
-                    <select th:field="*{receiverClientId}" class="form-select form-control-lg border border-dark"
+                    <select th:field="*{receiverClientId}" class="form-select form-control-lg border border-dark col-sm"
                             aria-label="Select A Connection">
                         <option value="0" selected>Select A Connection</option>
                         <option th:each="friendEmail : ${friendsEmailList}"
@@ -90,12 +89,15 @@
                 </div>
                 <!--            <div class="col-sm">-->
                 <div class="input-group col-sm input-group-lg ">
-                    <input th:field="*{amount}" type="number" class="form-control input-lg border border-dark" placeholder="0€    " step="1.0"
+                    <input th:field="*{amount}" type="number" class="form-control input-lg border border-dark"
+                           placeholder="0   € " step="1.0"
                            min="0"
                            style="text-align:right;" align="middle">
                 </div>
+                <div class="input-group col-sm input-group-lg ">
 
-                <button type="submit" class="btn btn-success btn-lg col-sm">Pay</button>
+                    <button type="submit" class="btn btn-success btn-lg col-sm">Pay</button>
+                </div>
 
             </div>
         </form>

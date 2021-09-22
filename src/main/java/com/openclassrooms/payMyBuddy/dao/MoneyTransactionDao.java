@@ -7,6 +7,11 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface MoneyTransactionDao extends JpaRepository<MoneyTransaction,Long> {
+public interface MoneyTransactionDao extends JpaRepository<MoneyTransaction, Long> {
     List<MoneyTransaction> findBySenderClientId(long senderId);
+
+    List<MoneyTransaction> findBySenderClientIdOrderByMoneyTransactionTimestampAsc(long senderId);
+
+    List<MoneyTransaction> findBySenderClientIdOrderByMoneyTransactionTimestampDesc(long senderId);
+
 }
