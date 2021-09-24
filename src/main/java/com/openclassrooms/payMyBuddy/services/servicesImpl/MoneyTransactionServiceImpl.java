@@ -5,6 +5,7 @@ import com.openclassrooms.payMyBuddy.dao.ClientDao;
 import com.openclassrooms.payMyBuddy.dao.MoneyTransactionDao;
 import com.openclassrooms.payMyBuddy.dto.MoneyTransactionDto;
 import com.openclassrooms.payMyBuddy.dto.PaymentDto;
+import com.openclassrooms.payMyBuddy.dto.TransactionListDto;
 import com.openclassrooms.payMyBuddy.dto.mapper.MoneyTransactionMapper;
 import com.openclassrooms.payMyBuddy.model.Balance;
 import com.openclassrooms.payMyBuddy.model.Client;
@@ -14,12 +15,13 @@ import com.openclassrooms.payMyBuddy.services.MoneyTransactionService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -67,18 +69,21 @@ public class MoneyTransactionServiceImpl implements MoneyTransactionService {
     }
 
     @Override
-    public List<PaymentDto> getTransactionList(String clientEmail) {
+    public TransactionListDto getTransactionList(String clientEmail, Pageable pageable) {
         Optional<Client> client = clientDao.findClientByEmailAccount(clientEmail);
-        List<MoneyTransaction> moneyTransactionList = client.isPresent()
-                ? moneyTransactionDao.findBySenderClientIdOrderByMoneyTransactionTimestampDesc(client.get().getClientId())
-                : Collections.emptyList();
+        Page<MoneyTransaction> moneyTransactionList = client.isPresent()
+                ? moneyTransactionDao.findBySenderClientIdOrderByMoneyTransactionTimestampDesc(client.get().getClientId(), pageable)
+                : Page.empty();
         List<PaymentDto> paymentDtoList = new ArrayList<>();
         moneyTransactionList.forEach(x -> paymentDtoList.add(PaymentDto.builder()
                 .receiverName(clientDao.findById(x.getReceiverClientId()).get().getFirstName())
                 .motive(x.getPayment().getMotive())
                 .amount(x.getPayment().getAmount())
                 .build()));
-        return paymentDtoList;
+
+        return TransactionListDto.builder()
+                .paymentDtoList(paymentDtoList)
+                .pageNumber(moneyTransactionList.getTotalPages()).build();
     }
 
     private boolean isValidClients(Optional<Balance> clientBalance, Optional<Balance> friendBalance) {

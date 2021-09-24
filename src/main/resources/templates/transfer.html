@@ -153,45 +153,52 @@
         </tr>
         </tbody>
     </table>
+    <!--+++++++++++++++++++++++++++++++++++++ +++++++++++++++++++++++++++++++++++++++++++++--
+           <nav aria-label="Page navigation" class="paging">
+               <ul class="pagination" th:if="${numberOfTransaction > 1}">
+                   <li class="page-item" th:classappend="${!posts.paging.isPrevEnabled()? 'disabled' : ''}">
+                       <a class="page-link" th:href="@{'/?pageNumber=' + ${posts.paging.pageNumber - 1}}"
+                          tabindex="-1">Previous</a>
+                   </li>
+                   <th:block th:each="item : ${posts.paging.getItems()}">
+                       <li class="page-item" th:classappend="${item.index == posts.paging.pageNumber? 'active' : ''}"
+                           th:if="${item.pageItemType.name() == 'PAGE'}">
+                           <a class="page-link" th:href="@{'/?pageNumber=' + ${item.index}}"
+                              th:text="${item.index}"></a>
+                       </li>
+                       <li class="page-item disabled" th:if="${item.pageItemType.name() == 'DOTS'}">
+                           <a class="page-link" href="#">...</a>
+                       </li>
+                   </th:block>
+                   <li class="page-item" th:classappend="${!posts.paging.isNextEnabled()? 'disabled' : ''}">
+                       <a class="page-link" th:href="@{'/?pageNumber=' + ${posts.paging.pageNumber + 1}}">Next</a>
+                   </li>
+               </ul>
+           </nav>
 
-    <!--   <nav aria-label="Page navigation" class="paging">
-           <ul class="pagination" th:if="${posts.page.totalPages > 1}">
-               <li class="page-item" th:classappend="${!posts.paging.isPrevEnabled()? 'disabled' : ''}">
-                   <a class="page-link" th:href="@{'/?pageNumber=' + ${posts.paging.pageNumber - 1}}"
-                      tabindex="-1">Previous</a>
-               </li>
-               <th:block th:each="item : ${posts.paging.getItems()}">
-                   <li class="page-item" th:classappend="${item.index == posts.paging.pageNumber? 'active' : ''}"
-                       th:if="${item.pageItemType.name() == 'PAGE'}">
-                       <a class="page-link" th:href="@{'/?pageNumber=' + ${item.index}}"
-                          th:text="${item.index}"></a>
-                   </li>
-                   <li class="page-item disabled" th:if="${item.pageItemType.name() == 'DOTS'}">
-                       <a class="page-link" href="#">...</a>
-                   </li>
-               </th:block>
-               <li class="page-item" th:classappend="${!posts.paging.isNextEnabled()? 'disabled' : ''}">
-                   <a class="page-link" th:href="@{'/?pageNumber=' + ${posts.paging.pageNumber + 1}}">Next</a>
-               </li>
-           </ul>
-       </nav>-->
+        <--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+
+
     <nav aria-label="Page navigation example">
         <ul class="pagination pagination-lg justify-content-center">
-            <li class="page-item">
-                <a class="page-link" href="#" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                    <span class="sr-only">Previous</span>
-                </a>
+            <!--            <li class="page-item">-->
+            <!--                <a class="page-link" href="#" aria-label="Previous">-->
+            <!--                    <span aria-hidden="true">&laquo;</span>-->
+            <!--                    <span class="sr-only">Previous</span>-->
+            <!--                </a>-->
+            <!--            </li>-->
+            <li class="page-item" th:each="i : ${pageNumberList}">
+                <a class="page-link" th:text="${i}+1" th:href="@{/transfer(page=${i})}">1</a>
             </li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item">
-                <a class="page-link" href="#" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                    <span class="sr-only">Next</span>
-                </a>
-            </li>
+            <!--            <li class="page-item"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>-->
+            <!--            <li class="page-item">-->
+            <!--                <a class="page-link" href="#" aria-label="Next">-->
+            <!--                    <span aria-hidden="true">&raquo;</span>-->
+            <!--                    <span class="sr-only">Next</span>-->
+            <!--                </a>-->
+            <!--            </li>-->
         </ul>
     </nav>
     <div> number of transaction = <span th:text="${numberOfTransaction}"></span></div>
