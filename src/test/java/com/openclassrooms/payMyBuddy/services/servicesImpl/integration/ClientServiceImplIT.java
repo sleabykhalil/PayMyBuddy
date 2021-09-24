@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -22,11 +23,13 @@ class ClientServiceImplIT {
     @Autowired
     ClientDao clientDao;
 
+    BCryptPasswordEncoder bCryptPasswordEncoder;
+
     ClientService clientServiceUnderTest;
 
     @BeforeEach
     void setUp() {
-        clientServiceUnderTest = new ClientServiceImpl(clientDao);
+        clientServiceUnderTest = new ClientServiceImpl(clientDao, bCryptPasswordEncoder);
     }
 
     @Test

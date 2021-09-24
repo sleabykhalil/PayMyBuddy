@@ -7,10 +7,11 @@ import org.mapstruct.Mapper;
 
 import java.util.List;
 
-@Mapper (componentModel = "spring")
+@Mapper(componentModel = "spring")
 public interface ClientMapper {
-    ClientDto ClientToClientDto(Client client);
+    ClientDto clientToClientDto(Client client);
 
+    Client clientDtoToClient(ClientDto client);
 
     List<FriendDto> friendEmailList(List<Client> friendList);
 //    default String friendEmailList(Client client){return client.getEmailAccount();}
