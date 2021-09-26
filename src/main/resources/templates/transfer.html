@@ -3,13 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">-->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
             crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"
+            integrity="sha384-W8fXfP3gkOKtndU4JGtKDvXbO53Wy8SZCQHczT5FMiiqmQfUpWbYdTil/SxwZgAN"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.min.js"
+            integrity="sha384-skAcpIdS7UcVUC05LJ9Dxay8AXcDYfBJqt1CJ85S/CFujBsIzCIv+l9liuYLaMQ/"
+            crossorigin="anonymous"></script>
+    <script type="module">
+        var myModal = document.getElementById('myModal')
+        var myInput = document.getElementById('myInput')
 
+        myModal.addEventListener('shown.bs.modal', function () {
+        myInput.focus()
+        })
+
+
+
+    </script>
     <title>My application</title>
 </head>
 <body>
@@ -33,7 +51,7 @@
                 <a class="nav-link " href="#">Contact</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link " href="#">Log off</a>
+                <a class="nav-link " href="/logout">Log off</a>
             </li>
         </ul>
     </div>
@@ -66,12 +84,61 @@
     <div>
         <div class="row justify-content-between">
             <H2>Send Money</H2>
-            <button class="btn btn-primary" type="submit">Add Connection</button>
+            <!--            <button class="btn btn-primary" type="submit">Add Connection</button>-->
+
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                Add Connection
+            </button>
+
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+
+                            <form action="#" method="post" th:action="@{/transfer(friend=true)}"
+                                  th:object="${newFriendDto}">
+                                <input type="hidden" th:field="*{clientId}" th:value="${clientId}"/>
+
+                                <div class="row bg-light justify-content-between p-5 ">
+                                    <div class="col-sm">
+                                        <select th:field="*{newFriendId}"
+                                                class="form-select form-control-lg border border-dark col-sm"
+                                                aria-label="Select A Connection">
+                                            <option value="0" selected>Select A Connection</option>
+                                            <option th:each="notFriend : ${notFriendList}"
+                                                    th:value="${notFriend.clientId}"
+                                                    th:text="${notFriend.emailAccount}">Not A FriendEmail
+                                            </option>
+
+                                        </select>
+                                    </div>
+
+                                    <div class="input-group col-sm input-group-lg ">
+                                        <button type="submit" class="btn btn-success btn-lg col-sm">Add Friend</button>
+                                    </div>
+
+                                </div>
+                            </form>
+
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
 
         </div>
-        <form action="#" method="post" th:action="@{/transfer}" th:object="${moneyTransactionDto}">
-            <input type="hidden"  th:field="*{senderClientId}" th:value="${senderClientId}"/>
-            <input type="hidden"  th:field="*{motive}" th:value="${motive}"/>
+        <form action="#" method="post" th:action="@{/transfer(transaction=true)}" th:object="${moneyTransactionDto}">
+            <input type="hidden" th:field="*{senderClientId}" th:value="${senderClientId}"/>
+            <input type="hidden" th:field="*{motive}" th:value="${motive}"/>
 
             <div class="row bg-light justify-content-between p-5 ">
                 <div class="col-sm">
@@ -203,10 +270,6 @@
     </nav>
     <div> number of transaction = <span th:text="${numberOfTransaction}"></span></div>
 </div>
-<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>-->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
-        crossorigin="anonymous"></script>
+
 </body>
 </html>

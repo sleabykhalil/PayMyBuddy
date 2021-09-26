@@ -30,20 +30,28 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 // .antMatchers("/*").permitAll()
-                .antMatchers("/resources/**").permitAll()
-                .antMatchers("/login").permitAll()
-                .antMatchers("/signup").permitAll()
+
                 //.antMatchers("/transfer**").access("hasAnyRole('ROLE_CLIENT', 'ROLE_ADMIN')")
                 //.antMatchers("/transfer").access("hasAnyRole('ROLE_CLIENT', 'ROLE_ADMIN')")
                 .antMatchers("/transfer").hasAuthority("CLIENT")
                 //.antMatchers("/transfer/**").access("hasAnyRole('ROLE_CLIENT', 'ROLE_ADMIN')")
                 .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/resources/**").permitAll()
+                .antMatchers("/login").permitAll()
+                .antMatchers("/signup").permitAll()
                 .anyRequest().authenticated().and().httpBasic()
                 .and()
                 .formLogin().loginPage("/login").permitAll()
                 .usernameParameter("username")
                 .passwordParameter("password")
-                .defaultSuccessUrl("/transfer");
+                .defaultSuccessUrl("/transfer")
+                .and()
+                .csrf().disable()
+                .logout()
+                // .logoutUrl("/perform_logout")
+                .deleteCookies("JSESSIONID")
+                .and()
+                .rememberMe();
 /*                .usernameParameter("client_email")
                 .passwordParameter("password");*/
         //.and()

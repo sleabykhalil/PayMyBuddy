@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.util.List;
@@ -14,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Entity
-@DynamicUpdate
+//@DynamicUpdate
 public class Client {
 
     @Id
@@ -40,7 +39,7 @@ public class Client {
     @OneToOne(
             cascade = CascadeType.ALL
 /*            ,orphanRemoval = true*/
-          ,  fetch = FetchType.LAZY)
+            , fetch = FetchType.LAZY)
     @JoinColumn(name = "client_id")
     private Balance balance;
 

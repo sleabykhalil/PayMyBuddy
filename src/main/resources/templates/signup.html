@@ -18,6 +18,16 @@
 <div class="container">
     <form class="px-4 py-3" th:action="@{/signup}" th:object="${clientDto}" method="POST">
         <div class="form-group">
+            <label for="firstName">first Name </label>
+            <input type="text" id="firstName" name="firstName" th:field="*{firstName}" class="form-control"
+                   placeholder="Khalil">
+        </div>
+        <div class="form-group">
+            <label for="lastName">last Name</label>
+            <input type="text" id="lastName" name="lastName" th:field="*{lastName}" class="form-control"
+                   placeholder="Sleaby">
+        </div>
+        <div class="form-group">
             <label for="client_email">Email address</label>
             <input type="email" id="client_email" name="client_email" th:field="*{emailAccount}" class="form-control"
                    placeholder="email@example.com">

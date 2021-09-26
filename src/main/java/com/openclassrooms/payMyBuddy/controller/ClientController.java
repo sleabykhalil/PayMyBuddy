@@ -1,6 +1,7 @@
 package com.openclassrooms.payMyBuddy.controller;
 
 import com.openclassrooms.payMyBuddy.dto.ClientDto;
+import com.openclassrooms.payMyBuddy.dto.NewFriendDto;
 import com.openclassrooms.payMyBuddy.dto.mapper.ClientMapper;
 import com.openclassrooms.payMyBuddy.model.Client;
 import com.openclassrooms.payMyBuddy.services.ClientService;
@@ -65,6 +66,21 @@ public class ClientController {
 
         redirectView.setUrl("404");
         return new ModelAndView(redirectView);
+    }
+
+    @Operation(summary = "Add friend")
+    @PostMapping(value = "/transfer", params = "friend")
+    public ModelAndView sendMoney(@RequestParam boolean friend
+            , NewFriendDto newFriendDto) {
+
+        log.info("Add new friend");
+        RedirectView redirectView = new RedirectView();
+        String newFriendEmail = clientService.findClientById(newFriendDto.getNewFriendId()).getEmailAccount();
+        clientService.updateOrInsertFriend(newFriendEmail, newFriendDto.getClientId());
+
+        redirectView.setUrl("/transfer");
+        return new ModelAndView(redirectView);
+
     }
 
 }
