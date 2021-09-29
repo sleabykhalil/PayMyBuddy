@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import javax.annotation.security.RolesAllowed;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -45,8 +44,9 @@ public class MoneyTransactionController {
 
     //@RolesAllowed({"CLIENT", "ADMIN"})
     @Operation(summary = "Send money")
-    @PostMapping(value = "/transfer")
-    public ModelAndView sendMoney(MoneyTransactionDto moneyTransactionDto) {
+    @PostMapping(value = "/transfer", params = "transaction")
+    public ModelAndView sendMoney(@RequestParam boolean transaction
+            , MoneyTransactionDto moneyTransactionDto) {
 
         log.info("Add new transaction");
         RedirectView redirectView = new RedirectView();
@@ -58,6 +58,7 @@ public class MoneyTransactionController {
         return new ModelAndView(redirectView);
     }
 
+
     //@RolesAllowed({"CLIENT", "ADMIN"})
     @GetMapping(value = "/transfer")
     public ModelAndView getTransactionList(Principal principal
@@ -67,21 +68,24 @@ public class MoneyTransactionController {
         String viewName = "transfer";
         Map<String, Object> model = new HashMap<String, Object>();
         String clientEmail = principal.getName();
-        // TODO delete client Email after creating log in
-        if (clientEmail == null) {
-            clientEmail = "khalil@gmail.com";
-        }
+
 
         Client client = clientService.findClientByEmail(clientEmail);
         ClientDto clientDto = clientMapper.clientToClientDto(client);
         model.put("clientDto", clientDto);
+
+        List<Client> notFriendList = clientService.findNotFriendList(client);
+        model.put("notFriendList", notFriendList);
+        NewFriendDto newFriendDto = NewFriendDto.builder()
+                .clientId(client.getClientId()).build();
+        model.put("newFriendDto", newFriendDto);
 
         MoneyTransactionDto moneyTransactionDto = MoneyTransactionDto.builder()
                 .senderClientId(client.getClientId())
                 .motive("undefined")//TODO will be removed in next version
                 .build();
         List<Client> friendsList = clientService.findAllFriends(client.getFriends());
-        List<FriendDto> friendsEmailList = clientMapper.friendEmailList(friendsList);
+        List<FriendEmailDto> friendsEmailList = clientMapper.friendEmailList(friendsList);
         model.put("friendsEmailList", friendsEmailList);
         model.put("moneyTransactionDto", moneyTransactionDto);
 

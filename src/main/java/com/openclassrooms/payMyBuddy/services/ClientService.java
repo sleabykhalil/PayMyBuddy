@@ -15,4 +15,8 @@ public interface ClientService {
     Client findClientByEmail(String clientEmail);
 
     List<Client> findAllFriends(List<Friend> friends);
+
+    List<Client> findNotFriendList(Client client);
+
+    Client findClientById(long clientId);
 }

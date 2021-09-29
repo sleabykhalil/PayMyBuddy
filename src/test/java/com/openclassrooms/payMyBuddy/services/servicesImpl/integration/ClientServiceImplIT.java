@@ -1,10 +1,12 @@
 package com.openclassrooms.payMyBuddy.services.servicesImpl.integration;
 
 import com.openclassrooms.payMyBuddy.dao.ClientDao;
+import com.openclassrooms.payMyBuddy.dao.FriendDao;
+import com.openclassrooms.payMyBuddy.dto.mapper.ClientMapper;
+import com.openclassrooms.payMyBuddy.dto.mapper.FriendMapper;
 import com.openclassrooms.payMyBuddy.model.Client;
 import com.openclassrooms.payMyBuddy.services.ClientService;
 import com.openclassrooms.payMyBuddy.services.servicesImpl.ClientServiceImpl;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,12 @@ class ClientServiceImplIT {
 
     @Autowired
     ClientDao clientDao;
+    @Autowired
+    FriendDao friendDao;
+    @Autowired
+    ClientMapper clientMapper;
+    @Autowired
+    FriendMapper friendMapper;
 
     BCryptPasswordEncoder bCryptPasswordEncoder;
 
@@ -29,7 +37,7 @@ class ClientServiceImplIT {
 
     @BeforeEach
     void setUp() {
-        clientServiceUnderTest = new ClientServiceImpl(clientDao, bCryptPasswordEncoder);
+        clientServiceUnderTest = new ClientServiceImpl(clientDao, friendDao, clientMapper, friendMapper, bCryptPasswordEncoder);
     }
 
     @Test

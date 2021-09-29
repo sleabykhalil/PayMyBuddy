@@ -6,13 +6,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class FriendDto {
-    private long friendId;
-    private List<Client> Clients;
+public class NewFriendDto {
+    long clientId;
+    long newFriendId;
+    String emailAccount;
 }
