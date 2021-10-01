@@ -23,7 +23,7 @@ import java.util.Set;
 public class ClientDetailsService implements UserDetailsService {
 
     //Todo add Roles To DATABASE in next Version
-    Set<String> roleSet = Set.of("CLIENT");
+    Set<String> roleSet = Set.of("ROLE_CLIENT");
 
     @Autowired
     private ClientService clientService;
