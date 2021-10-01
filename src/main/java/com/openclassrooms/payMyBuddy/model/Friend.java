@@ -1,5 +1,6 @@
 package com.openclassrooms.payMyBuddy.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,5 +24,6 @@ public class Friend {
     @ManyToMany(
             mappedBy = "friends"
     )
+    @JsonBackReference
     private List<Client> Clients;
 }

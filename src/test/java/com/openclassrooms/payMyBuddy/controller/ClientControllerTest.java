@@ -5,6 +5,7 @@ import com.openclassrooms.payMyBuddy.dao.ClientDao;
 import com.openclassrooms.payMyBuddy.dto.ClientDto;
 import com.openclassrooms.payMyBuddy.dto.NewFriendDto;
 import com.openclassrooms.payMyBuddy.model.Client;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -43,8 +44,24 @@ class ClientControllerTest {
 
     @BeforeEach
     void setUp() {
+        Optional<Client> client;
+        client = clientDao.findClientByEmailAccount("newkhalil@gmail.com");
+        if (client.isPresent()) {
+            balanceDao.deleteById(client.get().getClientId());
+            clientDao.deleteById(client.get().getClientId());
+        }
+        client = clientDao.findClientByEmailAccount("client@gmail.com");
+        if (client.isPresent()) {
+            clientDao.deleteById(client.get().getClientId());
+        }
+        client = clientDao.findClientByEmailAccount("friend@gmail.com");
+        if (client.isPresent()) {
+            clientDao.deleteById(client.get().getClientId());
+        }
+    }
 
-
+    @AfterEach
+    void afterEach() {
         Optional<Client> client;
         client = clientDao.findClientByEmailAccount("newkhalil@gmail.com");
         if (client.isPresent()) {

@@ -1,9 +1,7 @@
 package com.openclassrooms.payMyBuddy.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -32,10 +30,7 @@ public class MoneyTransaction {
     @OneToOne(cascade = CascadeType.ALL,
             fetch = FetchType.LAZY)
     @JoinColumn(name = "id", referencedColumnName = "transaction_id")
+    @JsonIgnore
+    @ToString.Exclude
     Payment payment;
-
-/*    @OneToOne(mappedBy = "moneyTransaction", cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn
-    private Payment payment;*/
-
 }

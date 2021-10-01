@@ -5,10 +5,10 @@ import com.openclassrooms.payMyBuddy.dao.ClientDao;
 import com.openclassrooms.payMyBuddy.dao.MoneyTransactionDao;
 import com.openclassrooms.payMyBuddy.dto.MoneyTransactionDto;
 import com.openclassrooms.payMyBuddy.dto.mapper.MoneyTransactionMapper;
+import com.openclassrooms.payMyBuddy.dto.mapper.MoneyTransactionMapperImpl;
 import com.openclassrooms.payMyBuddy.model.Balance;
 import com.openclassrooms.payMyBuddy.model.Client;
 import com.openclassrooms.payMyBuddy.model.MoneyTransaction;
-import com.openclassrooms.payMyBuddy.model.Payment;
 import com.openclassrooms.payMyBuddy.services.MoneyTransactionService;
 import com.openclassrooms.payMyBuddy.services.servicesImpl.MoneyTransactionServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,8 +16,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -31,12 +29,13 @@ class MoneyTransactionServiceImplIT {
     MoneyTransactionDao moneyTransactionDao;
     @Autowired
     ClientDao clientDao;
-    @Autowired
+
     MoneyTransactionMapper moneyTransactionMapper;
     MoneyTransactionService moneyTransactionServiceUnderTest;
 
     @BeforeEach
     void setUp() {
+        moneyTransactionMapper = new MoneyTransactionMapperImpl();
         moneyTransactionServiceUnderTest = new MoneyTransactionServiceImpl(moneyTransactionDao
                 , balanceDao, clientDao, moneyTransactionMapper);
     }
@@ -63,10 +62,6 @@ class MoneyTransactionServiceImplIT {
         client = clientDao.save(client);
         friend = clientDao.save(friend);
 
-/*        MoneyTransaction moneyTransaction = MoneyTransaction.builder()
-                .senderClientId(client.getClientId())
-                .receiverClientId(friend.getClientId())
-                .payment(Payment.builder().amount(5.00).build()).build();*/
         MoneyTransactionDto moneyTransactionDto = MoneyTransactionDto.builder()
                 .senderClientId(client.getClientId())
                 .receiverClientId(friend.getClientId())

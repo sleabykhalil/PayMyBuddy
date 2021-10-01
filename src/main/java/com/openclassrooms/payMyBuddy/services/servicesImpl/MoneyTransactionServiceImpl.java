@@ -52,11 +52,13 @@ public class MoneyTransactionServiceImpl implements MoneyTransactionService {
             clientBalance.get().setAmount(clientBalance.get().getAmount()
                     - (moneyTransaction.getPayment().getAmount() + moneyTransaction.getPayment().getFee()));
             friendBalance.get().setAmount(friendBalance.get().getAmount() + moneyTransaction.getPayment().getAmount());
-            moneyTransaction.setMoneyTransactionTimestamp(LocalDateTime.now());
             balanceDao.saveAll(List.of(clientBalance.get(), friendBalance.get()));
+
+            moneyTransaction.setMoneyTransactionTimestamp(LocalDateTime.now());
             Payment payment = moneyTransaction.getPayment();
             moneyTransaction.setPayment(null);
             moneyTransaction = moneyTransactionDao.save(moneyTransaction);
+
             payment.setTransactionId(moneyTransaction.getId());
             moneyTransaction.setPayment(payment);
             moneyTransaction.getPayment().setTransactionId(moneyTransaction.getId());
