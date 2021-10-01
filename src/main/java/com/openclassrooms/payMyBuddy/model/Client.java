@@ -1,9 +1,7 @@
 package com.openclassrooms.payMyBuddy.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
@@ -41,6 +39,8 @@ public class Client {
 /*            ,orphanRemoval = true*/
             , fetch = FetchType.LAZY)
     @JoinColumn(name = "client_id")
+    @JsonIgnore
+    @ToString.Exclude
     private Balance balance;
 
     @OneToMany(
@@ -48,6 +48,7 @@ public class Client {
                     CascadeType.PERSIST},
             fetch = FetchType.LAZY)
     @JoinColumn(name = "sender_client_id")
+    @JsonIgnore
     private List<MoneyTransaction> moneyTransactions;
 
     @ManyToMany(
@@ -56,6 +57,8 @@ public class Client {
             fetch = FetchType.LAZY)
     @JoinTable(name = "friend_client",
             joinColumns = @JoinColumn(name = "client_id"), inverseJoinColumns = @JoinColumn(name = "friend_id"))
+    @JsonIgnore
+    @ToString.Exclude
     private List<Friend> friends;
 
 }

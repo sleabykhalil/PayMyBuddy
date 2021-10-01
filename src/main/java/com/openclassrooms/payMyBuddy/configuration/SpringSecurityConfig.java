@@ -34,6 +34,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 //.antMatchers("/transfer**").access("hasAnyRole('ROLE_CLIENT', 'ROLE_ADMIN')")
                 //.antMatchers("/transfer").access("hasAnyRole('ROLE_CLIENT', 'ROLE_ADMIN')")
                 .antMatchers("/transfer").hasAuthority("CLIENT")
+                .antMatchers("/transfer").hasRole("CLIENT")
                 //.antMatchers("/transfer/**").access("hasAnyRole('ROLE_CLIENT', 'ROLE_ADMIN')")
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/resources/**").permitAll()

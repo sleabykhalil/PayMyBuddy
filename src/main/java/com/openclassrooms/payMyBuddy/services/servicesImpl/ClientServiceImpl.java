@@ -17,6 +17,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -113,8 +114,11 @@ public class ClientServiceImpl implements ClientService {
 
         List<Long> friendId = getFriendIdList(client.getFriends());
 
-        List<Client> friendList = clientDao.findAllById(friendId);
+        List<Client> friendList = new ArrayList<>();
+
+
         friendList.add(client);
+        friendList.addAll(clientDao.findAllById(friendId));
         notFriendList.removeAll(friendList);
         return notFriendList;
     }
