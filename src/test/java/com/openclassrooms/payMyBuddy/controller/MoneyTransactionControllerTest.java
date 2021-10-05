@@ -33,7 +33,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 @Transactional
 @AutoConfigureCache
-//@DataJpaTest
 
 class MoneyTransactionControllerTest {
     @Autowired

@@ -14,6 +14,5 @@ public interface ClientMapper {
     Client clientDtoToClient(ClientDto client);
 
     List<FriendEmailDto> friendEmailList(List<Client> friendList);
-//    default String friendEmailList(Client client){return client.getEmailAccount();}
 
 }

@@ -30,12 +30,18 @@ public class ClientDetailsService implements UserDetailsService {
     @Autowired
     ClientMapper clientMapper;
 
+    /**
+     * Lode user from DB
+     *
+     * @param clientEmail
+     * @return
+     * @throws UsernameNotFoundException
+     */
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String clientEmail) throws UsernameNotFoundException {
         Client client = clientService.findClientByEmail(clientEmail);
         ClientDto clientDto = clientMapper.clientToClientDto(client);
-        //List<GrantedAuthority> authorities=getClientAuthority(client.getRoles);
         List<GrantedAuthority> authorities = getClientAuthority(roleSet);
         UserDetails userDetails = buildClientForAuthentication(clientDto, authorities);
         return userDetails;

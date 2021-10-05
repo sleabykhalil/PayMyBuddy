@@ -25,19 +25,7 @@ public class ClientController {
     @Autowired
     ClientMapper clientMapper;
 
-/*    @Operation(summary = "Add new Client")
-    @PostMapping(value = "/newClient")
-    public Client addNewClient(@RequestBody Client client) {
-        log.info("Add new client");
-        return clientService.addNewClient(client);
-    }
 
-    @Operation(summary = "Assign new friend to client")
-    @PutMapping(value = "/client/addFriend")
-    public Client assignFriendToClient(@RequestParam String friendEmailAccount, @RequestParam long clientId) {
-        log.info("assign friend [{}] to client id [{}]", friendEmailAccount, clientId);
-        return clientService.updateOrInsertFriend(friendEmailAccount, clientId);
-    }*/
 
     @Operation(summary = "Add client")
     @GetMapping(value = "/signup")
