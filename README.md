@@ -1,5 +1,18 @@
 # PayMyBuddy
 
+### Running App
+
+Post installation of MySQL, Java and Maven, you will have to set up the tables and data in the data base.
+For this, please run the sql commands present in the `Data.sql` file under the `resources` folder in the code base.
+
+### Testing
+
+The app has unit tests and integration tests written.
+To run the tests from maven, go to the folder that contains the pom.xml file and execute the below command.
+
+`mvn test`
+
+
 ## diagramme de classe 
 
 ![Class Diagram v3](https://user-images.githubusercontent.com/64974948/136042482-c1f2d34a-b463-4b53-bc9f-0582ad4d4759.png)
