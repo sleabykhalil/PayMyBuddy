@@ -11,7 +11,6 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Entity
-//@DynamicUpdate
 public class Client {
 
     @Id

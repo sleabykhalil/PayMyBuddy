@@ -17,6 +17,13 @@ import java.util.Optional;
 public class BalanceServiceImpl implements BalanceService {
     private final BalanceDao balanceDao;
 
+    /**
+     * Feed client balance from bank account for client by client id
+     *
+     * @param clientId
+     * @param amount
+     * @return
+     */
     @Override
     public Balance feedBalanceFromBankAccount(long clientId, double amount) {
         Optional<Balance> oldBalance = balanceDao.findById(clientId);
@@ -35,6 +42,13 @@ public class BalanceServiceImpl implements BalanceService {
         return balanceDao.save(newBalance);
     }
 
+    /**
+     * Feed client bank account from balance for client by client id
+     *
+     * @param clientId
+     * @param amount
+     * @return
+     */
     @Override
     public Balance feedBankAccountFromBalance(long clientId, double amount) {
         Optional<Balance> oldBalance = balanceDao.findById(clientId);

@@ -18,11 +18,8 @@
         <org.projectlombok.version>1.18.20</org.projectlombok.version>
     </properties>
     <dependencies>
-        <!--		<dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-oauth2-client</artifactId>
-        </dependency>-->
-        <dependency>
+
+    <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
@@ -136,11 +133,8 @@
                 <version>0.8.6</version>
                 <configuration>
                     <excludes>
-                        <exclude>**/constants/*</exclude>
                         <exclude>**/dto/**</exclude>
-                        <exclude>**/exception/**</exclude>
                         <exclude>**/model/**</exclude>
-                        <exclude>**/logger/**</exclude>
                     </excludes>
                 </configuration>
                 <executions>

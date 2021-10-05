@@ -30,13 +30,19 @@ import java.util.Optional;
 @Service
 @Transactional
 public class MoneyTransactionServiceImpl implements MoneyTransactionService {
-    public static double FEE = 0.005;
+    public static double FEE = 0.005; // fee 0.5%
     private final MoneyTransactionDao moneyTransactionDao;
     private final BalanceDao balanceDao;
     private final ClientDao clientDao;
     @Autowired
     MoneyTransactionMapper moneyTransactionMapper;
 
+    /**
+     * Send money by applying mony transaction
+     *
+     * @param moneyTransactionDto
+     * @return
+     */
     @Override
     public MoneyTransaction sendMoney(MoneyTransactionDto moneyTransactionDto) {
         //calculate fee
@@ -70,6 +76,13 @@ public class MoneyTransactionServiceImpl implements MoneyTransactionService {
         }
     }
 
+    /**
+     * Get List of transaction already made
+     *
+     * @param clientEmail
+     * @param pageable
+     * @return
+     */
     @Override
     public TransactionListDto getTransactionList(String clientEmail, Pageable pageable) {
         Optional<Client> client = clientDao.findClientByEmailAccount(clientEmail);
