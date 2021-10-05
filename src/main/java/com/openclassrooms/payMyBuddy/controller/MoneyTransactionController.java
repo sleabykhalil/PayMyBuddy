@@ -26,7 +26,6 @@ import java.util.Map;
 
 @Slf4j
 @RestController
-//@RolesAllowed({"CLIENT", "ADMIN"})
 public class MoneyTransactionController {
     @Autowired
     MoneyTransactionService moneyTransactionService;
@@ -35,14 +34,7 @@ public class MoneyTransactionController {
     @Autowired
     ClientMapper clientMapper;
 
-    /*    @Operation(summary = "Send money")
-        @PostMapping(value = "/sendMoney")
-        public MoneyTransaction sendMoney(@RequestBody MoneyTransactionDto moneyTransactionDto) {
-            log.info("Add new transaction");
-            return moneyTransactionService.sendMoney(moneyTransactionDto);
-        }*/
 
-    //@RolesAllowed({"CLIENT", "ADMIN"})
     @Operation(summary = "Send money")
     @PostMapping(value = "/transfer", params = "transaction")
     public ModelAndView sendMoney(@RequestParam boolean transaction
@@ -59,12 +51,10 @@ public class MoneyTransactionController {
     }
 
 
-    //@RolesAllowed({"CLIENT", "ADMIN"})
     @GetMapping(value = "/transfer")
     public ModelAndView getTransactionList(Principal principal
             , @RequestParam(required = true, defaultValue = "3") int size
             , @RequestParam(required = true, defaultValue = "0") int page) {
-        //   public ModelAndView getTransactionList(@RequestParam(required = false) String clientEmail) {
         String viewName = "transfer";
         Map<String, Object> model = new HashMap<String, Object>();
         String clientEmail = principal.getName();
@@ -96,9 +86,7 @@ public class MoneyTransactionController {
         model.put("paymentDtoList", paymentDtoList);
         model.put("numberOfTransaction", paymentDtoList.size());
         int pageNumber = transactionListDto.getPageNumber();
-/*        if (paymentDtoList.size()> 3 ) {
-            pageNumber= (int) Math.ceil( paymentDtoList.size()/3);
-        }*/
+
         List<Integer> pageNumberList = new ArrayList<>();
         for (int i = 0; i < pageNumber; i++) {
             pageNumberList.add(i);

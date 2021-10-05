@@ -28,8 +28,5 @@ public class Payment {
     @Column(name = "fee")
     private double fee;
 
-/*    @OneToOne
-    @MapsId
-    @JoinColumn(name = "transaction_id")
-    private MoneyTransaction moneyTransaction;*/
+
 }

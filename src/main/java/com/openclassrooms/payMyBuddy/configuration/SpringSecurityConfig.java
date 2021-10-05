@@ -26,16 +26,17 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .passwordEncoder(passwordEncoder());
     }
 
+    /**
+     * http filter
+     *
+     * @param http
+     * @throws Exception
+     */
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                // .antMatchers("/*").permitAll()
-
-                //.antMatchers("/transfer**").access("hasAnyRole('ROLE_CLIENT', 'ROLE_ADMIN')")
-                //.antMatchers("/transfer").access("hasAnyRole('ROLE_CLIENT', 'ROLE_ADMIN')")
                 .antMatchers("/transfer").hasAuthority("CLIENT")
                 .antMatchers("/transfer").hasRole("CLIENT")
-                //.antMatchers("/transfer/**").access("hasAnyRole('ROLE_CLIENT', 'ROLE_ADMIN')")
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/resources/**").permitAll()
                 .antMatchers("/login").permitAll()
@@ -49,22 +50,12 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .csrf().disable()
                 .logout()
-                // .logoutUrl("/perform_logout")
                 .deleteCookies("JSESSIONID")
                 .and()
                 .rememberMe();
-/*                .usernameParameter("client_email")
-                .passwordParameter("password");*/
-        //.and()
-        //.oauth2Login();
+
     }
 
-/*    @Override
-    public void configure(WebSecurity web) throws Exception {
-        web
-                .ignoring()
-                .antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/images/**");
-    }*/
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {

@@ -39,6 +39,12 @@ public class ClientServiceImpl implements ClientService {
     @Autowired
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    /**
+     * Add New client
+     *
+     * @param client
+     * @return
+     */
     @Override
     public Client addNewClient(Client client) {
         if (clientDao.findClientByEmailAccount(client.getEmailAccount()).isEmpty()) {
@@ -54,6 +60,13 @@ public class ClientServiceImpl implements ClientService {
         }
     }
 
+    /**
+     * Add or update friend list
+     *
+     * @param friendEmailAccount
+     * @param clientId
+     * @return
+     */
     @Override
     public Client updateOrInsertFriend(String friendEmailAccount, long clientId) {
         Optional<Client> friendAsClient = clientDao.findClientByEmailAccount(friendEmailAccount);
@@ -73,8 +86,6 @@ public class ClientServiceImpl implements ClientService {
                             .friendId(friendAsClient.get().getClientId())
                             .Clients(List.of(client.get()))
                             .build();
-//                    friendDao.save(friendToAdd);
-//                    client.get().getFriends().add(friendToAdd);
                 }
                 clientDto.getFriends().add(friendMapper.friendDtoToFriend(friendToAddDto));
 
@@ -90,6 +101,12 @@ public class ClientServiceImpl implements ClientService {
         return null;
     }
 
+    /**
+     * Find client By Email Account
+     *
+     * @param clientEmail
+     * @return
+     */
     @Override
     public Client findClientByEmail(String clientEmail) {
         Optional<Client> client = clientDao.findClientByEmailAccount(clientEmail);
@@ -101,6 +118,12 @@ public class ClientServiceImpl implements ClientService {
         }
     }
 
+    /**
+     * get all Friend for client
+     *
+     * @param friends
+     * @return
+     */
     @Override
     public List<Client> findAllFriends(List<Friend> friends) {
         List<Client> friendList = clientDao.findAllById(friends
@@ -108,6 +131,12 @@ public class ClientServiceImpl implements ClientService {
         return friendList;
     }
 
+    /**
+     * Get list of clients not a friend to client
+     *
+     * @param client
+     * @return
+     */
     @Override
     public List<Client> findNotFriendList(Client client) {
         List<Client> notFriendList = clientDao.findAll();

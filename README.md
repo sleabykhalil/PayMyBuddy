@@ -4,7 +4,15 @@
 
 Post installation of MySQL, Java and Maven, you will have to set up the tables and data in the data base.
 For this, please run the sql commands present in the `Data.sql` file under the `resources` folder in the code base.
-
+Then run application as spring boot app,
+####Pages:
+ * Login page : [localhost:8080](http://localhost:8080/) <br> 
+        username and password to test:<br>
+        username: **khalil@gmail.com**<br>
+        password: **123456**<br>
+        after login you will be redirect to transaction page
+ * Transaction page : [transfer](http://localhost:8080/transfer)
+ * SignUp page : [SignUp](http://localhost:8080/signup)
 ### Testing
 
 The app has unit tests and integration tests written.
