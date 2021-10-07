@@ -28,7 +28,7 @@ To run the tests from maven, go to the folder that contains the pom.xml file and
 
 ## Le modèle physique de données
 
-![modele physique de donnees](https://user-images.githubusercontent.com/64974948/136044747-484e085d-ac05-44be-90c0-4a243e9c092a.png)
+![MPD_without_Friend](https://user-images.githubusercontent.com/64974948/136365467-798fed94-bd80-44c4-a254-6daeacbee0a7.PNG)
 
 ## Business Model
 
