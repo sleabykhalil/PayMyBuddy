@@ -1,11 +1,8 @@
 package com.openclassrooms.payMyBuddy.services.servicesImpl.integration;
 
 import com.openclassrooms.payMyBuddy.dao.ClientDao;
-import com.openclassrooms.payMyBuddy.dao.FriendDao;
 import com.openclassrooms.payMyBuddy.dto.mapper.ClientMapper;
 import com.openclassrooms.payMyBuddy.dto.mapper.ClientMapperImpl;
-import com.openclassrooms.payMyBuddy.dto.mapper.FriendMapper;
-import com.openclassrooms.payMyBuddy.dto.mapper.FriendMapperImpl;
 import com.openclassrooms.payMyBuddy.model.Client;
 import com.openclassrooms.payMyBuddy.services.ClientService;
 import com.openclassrooms.payMyBuddy.services.servicesImpl.ClientServiceImpl;
@@ -28,11 +25,9 @@ class ClientServiceImplIT {
 
     @Autowired
     ClientDao clientDao;
-    @Autowired
-    FriendDao friendDao;
+
 
     ClientMapper clientMapper;
-    FriendMapper friendMapper;
 
     BCryptPasswordEncoder bCryptPasswordEncoder;
 
@@ -41,9 +36,8 @@ class ClientServiceImplIT {
     @BeforeEach
     void setUp() {
         clientMapper = new ClientMapperImpl();
-        friendMapper = new FriendMapperImpl();
         bCryptPasswordEncoder = new BCryptPasswordEncoder();
-        clientServiceUnderTest = new ClientServiceImpl(clientDao, friendDao, clientMapper, friendMapper, bCryptPasswordEncoder);
+        clientServiceUnderTest = new ClientServiceImpl(clientDao,  clientMapper,  bCryptPasswordEncoder);
     }
 
     @Test
@@ -51,7 +45,6 @@ class ClientServiceImplIT {
         Client clientToAdd = Client.builder()
                 .emailAccount("testkhalil@gmail.com")
                 .clientPassword("testPassword")
-                //.balance(Balance.builder().amount(0.0).build())
                 .clientType("Friend")
                 .firstName("Khalil")
                 .lastName("Sleaby")

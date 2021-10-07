@@ -1,7 +1,7 @@
 package com.openclassrooms.payMyBuddy.dto;
 
 import com.openclassrooms.payMyBuddy.model.Balance;
-import com.openclassrooms.payMyBuddy.model.Friend;
+import com.openclassrooms.payMyBuddy.model.Client;
 import com.openclassrooms.payMyBuddy.model.MoneyTransaction;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,5 +31,5 @@ public class ClientDto {
 
     private List<MoneyTransaction> moneyTransactions;
 
-    private List<Friend> friends;
+    private List<Client> friends;
 }

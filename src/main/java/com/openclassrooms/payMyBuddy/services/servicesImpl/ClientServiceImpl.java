@@ -1,14 +1,10 @@
 package com.openclassrooms.payMyBuddy.services.servicesImpl;
 
 import com.openclassrooms.payMyBuddy.dao.ClientDao;
-import com.openclassrooms.payMyBuddy.dao.FriendDao;
 import com.openclassrooms.payMyBuddy.dto.ClientDto;
-import com.openclassrooms.payMyBuddy.dto.FriendDto;
 import com.openclassrooms.payMyBuddy.dto.mapper.ClientMapper;
-import com.openclassrooms.payMyBuddy.dto.mapper.FriendMapper;
 import com.openclassrooms.payMyBuddy.model.Balance;
 import com.openclassrooms.payMyBuddy.model.Client;
-import com.openclassrooms.payMyBuddy.model.Friend;
 import com.openclassrooms.payMyBuddy.services.ClientService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,12 +26,10 @@ public class ClientServiceImpl implements ClientService {
 
     @Autowired
     private final ClientDao clientDao;
-    @Autowired
-    private final FriendDao friendDao;
+
     @Autowired
     ClientMapper clientMapper;
-    @Autowired
-    FriendMapper friendMapper;
+
     @Autowired
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
@@ -75,19 +69,17 @@ public class ClientServiceImpl implements ClientService {
             if (friendAsClient.isPresent()) {
                 ClientDto clientDto = clientMapper.clientToClientDto(client.get());
                 ClientDto friendAsClientDto = clientMapper.clientToClientDto(friendAsClient.get());
-                Friend friendToAdd;
-                FriendDto friendToAddDto;
-                if (friendDao.existsById(friendAsClient.get().getClientId())) {
-                    friendToAdd = friendDao.getById(friendAsClient.get().getClientId());
-                    friendToAddDto = friendMapper.friendToFriendDto(friendToAdd);
-                    friendToAddDto.getClients().add(client.get());
+                Client friendToAdd;
+                ClientDto friendToAddDto = null;
+                if (clientDao.existsById(friendAsClient.get().getClientId())) {
+                    friendToAdd = clientDao.getById(friendAsClient.get().getClientId());
+                    friendToAddDto = clientMapper.clientToClientDto(friendToAdd);
+                    friendToAddDto.getFriends().add(client.get());
+                    clientDto.getFriends().add(clientMapper.clientDtoToClient(friendToAddDto));
+
                 } else {
-                    friendToAddDto = FriendDto.builder()
-                            .friendId(friendAsClient.get().getClientId())
-                            .Clients(List.of(client.get()))
-                            .build();
+                    log.error("Account not Exist");
                 }
-                clientDto.getFriends().add(friendMapper.friendDtoToFriend(friendToAddDto));
 
                 return clientDao.save(clientMapper.clientDtoToClient(clientDto));
 
@@ -125,9 +117,9 @@ public class ClientServiceImpl implements ClientService {
      * @return
      */
     @Override
-    public List<Client> findAllFriends(List<Friend> friends) {
+    public List<Client> findAllFriends(List<Client> friends) {
         List<Client> friendList = clientDao.findAllById(friends
-                .stream().map(Friend::getFriendId).collect(Collectors.toList()));
+                .stream().map(Client::getClientId).collect(Collectors.toList()));
         return friendList;
     }
 
@@ -157,9 +149,9 @@ public class ClientServiceImpl implements ClientService {
         return clientDao.getById(clientId);
     }
 
-    private List<Long> getFriendIdList(List<Friend> friends) {
+    private List<Long> getFriendIdList(List<Client> friends) {
         return friends.stream()
-                .map(Friend::getFriendId)
+                .map(Client::getClientId)
                 .collect(Collectors.toList());
     }
 }

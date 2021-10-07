@@ -38,6 +38,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/transfer").hasAuthority("CLIENT")
                 .antMatchers("/transfer").hasRole("CLIENT")
                 .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/h2-console/**").permitAll()
                 .antMatchers("/resources/**").permitAll()
                 .antMatchers("/login").permitAll()
                 .antMatchers("/signup").permitAll()
@@ -53,6 +54,11 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .deleteCookies("JSESSIONID")
                 .and()
                 .rememberMe();
+
+//        http.authorizeRequests().antMatchers("/").permitAll().and()
+//                    .authorizeRequests().antMatchers("/console/**").permitAll();
+//        http.csrf().disable();
+//        http.headers().frameOptions().disable();
 
     }
 
