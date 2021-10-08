@@ -1,7 +1,6 @@
 package com.openclassrooms.payMyBuddy.services;
 
 import com.openclassrooms.payMyBuddy.model.Client;
-import com.openclassrooms.payMyBuddy.model.Friend;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,7 +13,7 @@ public interface ClientService {
 
     Client findClientByEmail(String clientEmail);
 
-    List<Client> findAllFriends(List<Friend> friends);
+    List<Client> findAllFriends(List<Client> friends);
 
     List<Client> findNotFriendList(Client client);
 

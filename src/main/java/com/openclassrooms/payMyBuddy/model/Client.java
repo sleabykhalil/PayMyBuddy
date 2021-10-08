@@ -35,12 +35,12 @@ public class Client {
 
     @OneToOne(
             cascade = CascadeType.ALL
-/*            ,orphanRemoval = true*/
             , fetch = FetchType.LAZY)
     @JoinColumn(name = "client_id")
     @JsonIgnore
     @ToString.Exclude
     private Balance balance;
+
 
     @OneToMany(
             cascade = {CascadeType.MERGE,
@@ -50,14 +50,9 @@ public class Client {
     @JsonIgnore
     private List<MoneyTransaction> moneyTransactions;
 
-    @ManyToMany(
-            cascade = {CascadeType.MERGE,
-                    CascadeType.PERSIST},
-            fetch = FetchType.LAZY)
-    @JoinTable(name = "friend_client",
-            joinColumns = @JoinColumn(name = "client_id"), inverseJoinColumns = @JoinColumn(name = "friend_id"))
+    @OneToMany
     @JsonIgnore
     @ToString.Exclude
-    private List<Friend> friends;
+    private List<Client> friends;
 
 }
