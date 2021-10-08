@@ -1,6 +1,6 @@
 /* Setting up PROD DB */
-create database if not exists paymybuddywithoutfriend;
-use paymybuddywithoutfriend;
+create database if not exists paymybuddy;
+use paymybuddy;
 
 drop table IF EXISTS balance,client,CLIENT_FRIENDS,money_transaction,payment;
 
@@ -111,8 +111,8 @@ commit;
 
 
 /* Setting up TEST DB */
-create database  if not exists paymybuddywithoutfriendtest;
-use paymybuddywithoutfriendtest;
+create database  if not exists paymybuddy;
+use paymybuddy;
 
 drop table IF EXISTS balance,client,CLIENT_FRIENDS,money_transaction,payment;
 
