@@ -35,6 +35,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
+                .antMatchers("/swagger-ui/**", "/javainuse-openapi/**").permitAll()
                 .antMatchers("/transfer").hasAuthority("CLIENT")
                 .antMatchers("/transfer").hasRole("CLIENT")
                 .antMatchers("/admin/**").hasRole("ADMIN")
@@ -54,6 +55,11 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .deleteCookies("JSESSIONID")
                 .and()
                 .rememberMe();
+//        http.authorizeRequests()
+//                .antMatchers("/swagger-ui/**", "/javainuse-openapi/**").permitAll()
+//                .anyRequest().authenticated()
+//                .and()
+//                .httpBasic();
 
 //        http.authorizeRequests().antMatchers("/").permitAll().and()
 //                    .authorizeRequests().antMatchers("/console/**").permitAll();
